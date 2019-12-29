@@ -697,6 +697,10 @@ parse_cmdline() {
 			CMD_KERNEL_SYMLINK_NAME="${*#*=}"
 			print_info 3 "CMD_KERNEL_SYMLINK_NAME: ${CMD_KERNEL_SYMLINK_NAME}"
 			;;
+		--fullname=*)
+			CMD_FULLNAME="${*#*=}"
+			print_info 3 "CMD_FULLNAME: ${CMD_FULLNAME}"
+			;;
 		--symlink|--no-symlink)
 			CMD_SYMLINK=$(parse_optbool "$*")
 			print_info 3 "CMD_SYMLINK: ${CMD_SYMLINK}"
