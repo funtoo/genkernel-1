@@ -19,7 +19,7 @@ gen_minkernpackage() {
 		"${TAR_COMMAND}" -x -C "${TEMP}"/minkernpackage -f "${KERNCACHE}" "${GK_FILENAME_TEMP_SYSTEMMAP}" \
 			|| gen_die "Failed to extract '${GK_FILENAME_TEMP_SYSTEMMAP}' from '${KERNCACHE}' to '${TEMP}/minkernpackage'!"
 
-		if [[ "${GK_FILENAME_TEMP_SYSTEMMAP}" != "${GK_FILENAME_SYSTEMMAP}" ]]
+		if [[ "${GK_FILENAME_TEMP_SYSTEMMAP##*/}" != "${GK_FILENAME_SYSTEMMAP##*/}" ]]
 		then
 			mv "${TEMP}"/minkernpackage/{${GK_FILENAME_TEMP_SYSTEMMAP},${GK_FILENAME_SYSTEMMAP}} \
 				|| gen_die "Failed to rename '${TEMP}/minkernpackage/${GK_FILENAME_TEMP_SYSTEMMAP}' to '${GK_FILENAME_SYSTEMMAP}'!"
