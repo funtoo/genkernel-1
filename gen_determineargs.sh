@@ -87,13 +87,13 @@ determine_KV() {
 determine_output_filenames() {
 	print_info 5 '' 1 0
 
-	GK_FILENAME_CONFIG="kernel-config-${FULLNAME}"
-	GK_FILENAME_KERNELZ="kernelz-${FULLNAME}"
-	GK_FILENAME_TEMP_CONFIG="config-${FULLNAME}"
-	GK_FILENAME_TEMP_INITRAMFS="initramfs-${FULLNAME}"
-	GK_FILENAME_TEMP_KERNEL="kernel-${FULLNAME}"
-	GK_FILENAME_TEMP_KERNELZ="kernelz-${FULLNAME}"
-	GK_FILENAME_TEMP_SYSTEMMAP="System.map-${FULLNAME}"
+	GK_FILENAME_CONFIG="kernel-config-${KV}"
+	GK_FILENAME_KERNELZ="kernelz-${KV}"
+	GK_FILENAME_TEMP_CONFIG="config-${ARCH}-${KV}"
+	GK_FILENAME_TEMP_INITRAMFS="initramfs-${ARCH}-${KV}"
+	GK_FILENAME_TEMP_KERNEL="kernel-${ARCH}-${KV}"
+	GK_FILENAME_TEMP_KERNELZ="kernelz-${ARCH}-${KV}"
+	GK_FILENAME_TEMP_SYSTEMMAP="System.map-${ARCH}-${KV}"
 
 	# Do we have values?
 	if [ -z "${KERNEL_FILENAME}" ]
@@ -371,7 +371,7 @@ determine_real_args() {
 	set_config_with_override STRING STRIP_TYPE                            CMD_STRIP_TYPE                            "modules"
 	set_config_with_override BOOL   INSTALL                               CMD_INSTALL                               "yes"
 	set_config_with_override BOOL   CLEANUP                               CMD_CLEANUP                               "yes"
-	set_config_with_override STRING FULLNAME                              CMD_FULLNAME                              "${KNAME}-${ARCH}-${KV}"
+
 	# Special case:  If --no-clean is specified on the command line,
 	# imply --no-mrproper.
 	if ! isTrue "${CLEAN}"
