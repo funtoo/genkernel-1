@@ -969,12 +969,6 @@ append_linker() {
 			cp -arL "/etc/ld.so.conf.d" "${TDIR}"/etc \
 				|| gen_die "Failed to copy '/etc/ld.so.conf.d'!"
 		fi
-
-		if [ -e "/etc/ld.so.cache" ]
-		then
-			cp -aL "/etc/ld.so.cache" "${TDIR}"/etc/ld.so.cache \
-				|| gen_die "Failed to copy '/etc/ld.so.cache'!"
-		fi
 	fi
 
 	cd "${TDIR}" || gen_die "Failed to chdir to '${TDIR}'!"
@@ -1803,16 +1797,6 @@ create_initramfs() {
 
 		"${CPIO_COMMAND}" --quiet -i -F "${CPIO_ARCHIVE}" 2>/dev/null \
 			|| gen_die "Failed to extract cpio '${CPIO_ARCHIVE}' for dedupe"
-
-		if ! isTrue "$(tc-is-cross-compiler)"
-		then
-			# We can generate or update /etc/ld.so.cache which was copied from host
-			# to actually match initramfs' content.
-			print_info 1 "$(get_indent 1)>> Pre-generating initramfs' /etc/ld.so.cache ..."
-			# Need to disable sandbox which doesn't understand chroot(), bug #431038
-			SANDBOX_ON=0 ldconfig -f /etc/ld.so.conf -r "${TDIR}" 2>/dev/null \
-				|| gen_die "Failed to pre-generate '${TDIR}/etc/ld.so.cache'!"
-		fi
 
 		find . -print0 | sort -z | "${CPIO_COMMAND}" ${CPIO_ARGS} --reproducible -F "${CPIO_ARCHIVE}" 2>/dev/null \
 			|| gen_die "rebuilding cpio for dedupe"
